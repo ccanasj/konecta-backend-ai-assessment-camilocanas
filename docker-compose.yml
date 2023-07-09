@@ -1,0 +1,66 @@
+version: "3"
+
+volumes:
+  db:
+
+
+services:
+  db:
+    image: mariadb
+    restart: always
+    container_name: database
+    environment:
+      MYSQL_DATABASE: 'task_manager'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: '123456789'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3306:3306'
+    expose:
+      - 3306
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - api-network
+
+  db-test:
+    image: mariadb
+    container_name: database-test
+    cpus: 0.1
+    mem_limit: 150M
+    mem_reservation: 100M
+    environment:
+      MYSQL_DATABASE: 'tests'
+      MYSQL_USER: 'Tester'
+      MYSQL_PASSWORD: 'Prueba123'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3307:3306'
+    expose:
+      - 3307
+    networks:
+      - api-network
+
+  api-service:
+    build: app
+    restart: always
+    container_name: api-service
+    ports:
+      - "8000:8000"
+    environment:
+      MYSQL_DATABASE: 'task_manager'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: '123456789'
+      MYSQL_HOST: 'database'
+      MYSQL_PORT: '3306'
+      JWT_SECRET_KEY: 'ultrasecretkey'
+    links:
+      - "db:database"
+    depends_on:
+      - db
+    networks:
+      - api-network
+
+networks:
+  api-network:
+    driver: bridge
