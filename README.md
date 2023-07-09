@@ -75,7 +75,7 @@
 
 ## Tests
 
-**Note:** Remember to activate the virtual environment with the project requirements and Docker should be installed on your machine.
+**Note:** Remember to activate the virtual environment with the project requirements, and Docker should be installed on your machine.
 
 1. Open a terminal or command prompt.
 
@@ -91,27 +91,41 @@ docker run -d --name database-tests \
   mariadb
 ```
 
-3. Go to source folder
+3. Go to the source folder:
 
 ```bash
 cd app/
 ```
 
-4. Set environment variable
+4. Set the database test connection in the `config.py` file:
 
-   - **Linux**
+```python
+if environ.get("TESTING") == "True":
+    SQLALCHEMY_DATABASE_URL = URL.create(
+        drivername="mysql+pymysql",
+        password="Prueba123",
+        username="Tester",
+        host="localhost",
+        port=3307,
+        database="tests",
+    )
+```
+
+5. Set the environment variable:
+
+   - **Linux:**
 
       ```bash
       export TESTING="True"
       ```
 
-   - **Windows**
+   - **Windows:**
 
       ```powershell
       $env:TESTING="True"
       ```
 
-5. Run the tests
+6. Run the tests:
 
    ```bash
    python -m pytest tests/
