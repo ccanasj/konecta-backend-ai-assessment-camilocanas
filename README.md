@@ -75,29 +75,43 @@
 
 ## Tests
 
-**Note:** Remember to activate the virtual environment with the project requirements
+**Note:** Remember to activate the virtual environment with the project requirements and Docker should be installed on your machine.
 
-1. Go to source folder
+1. Open a terminal or command prompt.
 
-   ```bash
-   cd app/
-   ```
+2. Run the following command to start a MariaDB Docker container:
 
-2. Set environment variable
+```bash
+docker run -d --name my-mariadb \
+  -e MYSQL_ROOT_PASSWORD=Prueba123 \
+  -e MYSQL_USER=Tester \
+  -e MYSQL_PASSWORD=Prueba123 \
+  -e MYSQL_DATABASE=tests \
+  -p 3307:3306 \
+  mariadb
+```
+
+3. Go to source folder
+
+```bash
+cd app/
+```
+
+4. Set environment variable
 
    - **Linux**
 
-     ```bash
-     export TESTING="True"
-     ```
+      ```bash
+      export TESTING="True"
+      ```
 
    - **Windows**
 
-     ```powershell
-     $env:TESTING="True"
-     ```
+      ```powershell
+      $env:TESTING="True"
+      ```
 
-3. Run the tests
+5. Run the tests
 
    ```bash
    python -m pytest tests/
