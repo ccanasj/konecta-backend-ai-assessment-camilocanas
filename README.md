@@ -53,8 +53,8 @@
    - Start docker
    - Use the following command to start the database on local
 
-   ```
-   docker run -d --name my-mariadb -e MYSQL_USER=user -e MYSQL_PASSWORD=123456789 -e MYSQL_DATABASE=task_manager -e MARIADB_ROOT_PASSWORD=root -p 3306:3306 mariadb
+   ```bash
+   docker run -d --name database -e MYSQL_USER=user -e MYSQL_PASSWORD=123456789 -e MYSQL_DATABASE=task_manager -e MARIADB_ROOT_PASSWORD=root -p 3306:3306 mariadb
    ```
 
 6. Run the project
@@ -82,7 +82,7 @@
 2. Run the following command to start a MariaDB Docker container:
 
 ```bash
-docker run -d --name my-mariadb \
+docker run -d --name database-tests \
   -e MYSQL_ROOT_PASSWORD=Prueba123 \
   -e MYSQL_USER=Tester \
   -e MYSQL_PASSWORD=Prueba123 \
